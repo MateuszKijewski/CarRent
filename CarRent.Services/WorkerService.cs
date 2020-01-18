@@ -20,11 +20,12 @@ namespace CarRent.Services
         }
 
 
-        public int AddWorker(int coordinatorId, AddWorkerDto addWorkerDto)
+        public int AddWorker(int coordinatorId, int regionId, AddWorkerDto addWorkerDto)
         {
             var worker = _workerConverter.FromAddWorkerDtoToWorker(addWorkerDto);
             worker.IsDeleted = false;
             worker.CoordinatorId = coordinatorId;
+            worker.RegionId = regionId;
 
             return _workerRepository.Add(worker);
             

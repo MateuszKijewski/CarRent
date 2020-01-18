@@ -13,6 +13,7 @@ namespace CarRent.Models.Entities
 
         public ICollection<Worker> Workers { get; set; }
         public ICollection<Coordinator> Coordinators { get; set; }
+        public ICollection<Car> Cars { get; set; }
 
     }
 }

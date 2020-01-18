@@ -18,13 +18,14 @@ namespace CarRent.Services
             _carRepository = carRepository;            
         }
 
-        public int AddCar(AddCarDto addCarDto)
+        public int AddCar(int regionId, AddCarDto addCarDto)
         {
             var car = _carConverter.FromAddCarDtoToCar(addCarDto);
             
             car.IsAway = false;
             car.IsDamaged = false;
             car.IsDeleted = false;
+            car.RegionId = regionId;
 
             _carRepository.Add(car);
             return car.Id;

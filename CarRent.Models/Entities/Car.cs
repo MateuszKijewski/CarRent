@@ -24,5 +24,12 @@ namespace CarRent.Models.Entities
 
         public Worker Worker { get; set; }
         public int WorkerId { get; set; }
+        public Region Region { get; set; }
+        public int RegionId { get; set; }
+
+        public string Description()
+        {
+            return $"{Brand} {Model} {Year} color {Color}";
+        }
     }
 }

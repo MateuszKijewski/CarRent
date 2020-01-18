@@ -2,33 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CarRent.Models.Entities
+namespace CarRent.Models.Dtos
 {
-    public class Order
+    public class GetOrderDto
     {
-        
-        public int Id { get; protected set; }
+        public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public int RentalTime { get; set; }
         public string DeliveryPlace { get; set; }
         public Decimal Cost { get; set; }
         public bool IsDeleted { get; set; }
+        public string CarDescription { get; set; }
 
-        
         public int CarId { get; set; }
-        public Car Car { get; set; }
-
         public int WorkerId { get; set; }
-        public Worker Worker { get; set; }
-
-        public int CoordinatorId { get; set; }
-        public Coordinator Coordinator { get; set; }
-
         public int RegionId { get; set; }
-        public Region Region { get; set; }
-
         public int ClientId { get; set; }
-        public Client Client { get; set; }
-        
     }
 }

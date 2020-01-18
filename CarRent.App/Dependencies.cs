@@ -1,6 +1,7 @@
 ﻿using CarRent.DataAccess;
 using CarRent.Models.Converters;
 using CarRent.Repositories;
+using CarRent.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -20,6 +21,11 @@ namespace CarRent.App
 
             services.AddTransient<CarRentDbContext>(sp => new CarRentDbContext(optionsBuilder.Options));
 
+            services.AddTransient<ICarService, CarService>();
+            services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<IWorkerService, WorkerService>();
+            services.AddTransient<IDocumentService, DocumentServices>();
+
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddSingleton<ICarConverter, CarConverter>();
 
@@ -28,6 +34,9 @@ namespace CarRent.App
 
             services.AddTransient<IClientRepository, ClientRepository>();
             services.AddSingleton<IClientConverter, ClientConverter>();
+
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddSingleton<IOrderConverter, OrderConverter>();
 
 
             return services.BuildServiceProvider();

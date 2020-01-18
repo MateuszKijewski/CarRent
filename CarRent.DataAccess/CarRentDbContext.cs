@@ -14,6 +14,7 @@ namespace CarRent.DataAccess
         public DbSet<Worker> Workers { get; set; }
         public DbSet<Coordinator> Coordinators { get; set; }
         public DbSet<Client> Clients { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -37,6 +38,11 @@ namespace CarRent.DataAccess
             builder.Entity<Coordinator>()
                 .HasOne(c => c.Region)
                 .WithMany(r => r.Coordinators)
+                .HasForeignKey(c => c.RegionId);
+
+            builder.Entity<Car>()
+                .HasOne(c => c.Region)
+                .WithMany(r => r.Cars)
                 .HasForeignKey(c => c.RegionId);
 
             builder.Entity<Worker>()
