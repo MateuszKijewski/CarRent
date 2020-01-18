@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CarRent.Models.Entities
 {
-    public class Client
+    public class Client : Person
     {
         public bool IsCompany { get; set; }
         public string DriversLicenseNumber { get; set; }

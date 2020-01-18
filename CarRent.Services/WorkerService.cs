@@ -26,8 +26,8 @@ namespace CarRent.Services
             worker.IsDeleted = false;
             worker.CoordinatorId = coordinatorId;
 
-            _workerRepository.Add(worker);
-            return worker.Id;
+            return _workerRepository.Add(worker);
+            
         }
 
         public IEnumerable<GetWorkerDto> FilterWorkers(Dictionary<string, string> stringQueries, int[] salaryRange)

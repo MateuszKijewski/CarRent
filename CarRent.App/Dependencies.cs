@@ -26,6 +26,9 @@ namespace CarRent.App
             services.AddTransient<IWorkerRepository, WorkerRepository>();
             services.AddSingleton<IWorkerConverter, WorkerConverter>();
 
+            services.AddTransient<IClientRepository, ClientRepository>();
+            services.AddSingleton<IClientConverter, ClientConverter>();
+
 
             return services.BuildServiceProvider();
         }

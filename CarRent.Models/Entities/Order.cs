@@ -6,6 +6,7 @@ namespace CarRent.Models.Entities
 {
     public class Order
     {
+        /*
         public int Id { get; protected set; }
         public DateTime OrderDate { get; set; }
         public int RentalTime { get; set; }
@@ -13,7 +14,7 @@ namespace CarRent.Models.Entities
         public Decimal Cost { get; set; }
         public bool IsDeleted { get; set; }
 
-        /* Parent Relations */
+        Parent Relations
         public int CarId { get; set; }
         public Car Car { get; set; }
 
@@ -28,5 +29,6 @@ namespace CarRent.Models.Entities
 
         public int ClientId { get; set; }
         public Client Client { get; set; }
+        */
     }
 }

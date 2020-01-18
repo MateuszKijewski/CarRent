@@ -9,7 +9,7 @@ namespace CarRent.Repositories
     {
         Worker Get(int id);
         IEnumerable<Worker> GetAll();
-        int Add(Worker car);
+        int Add(Worker worker);
         int Delete(int id);
         IEnumerable<Worker> Filter(Dictionary<string, string> stringQueries, int[] salaryRange);
     }
