@@ -33,22 +33,25 @@ namespace CarRent.Repositories
             return client.Id;
         }
 
-        public IEnumerable<Client> Filter(Dictionary<string, string> stringQueries, string isCompany)
+        public IEnumerable<Client> Filter(Dictionary<string, string> stringQueries, Dictionary<string, bool> isCompany)
         {
             List<Client> duplicatesResult = new List<Client>();
 
             if (isCompany != null)
             {
-                switch (isCompany)
+                foreach(KeyValuePair<string, bool> pair in isCompany)
                 {
-                    case "Companies":
-                        var filteredCompanies = _db.Clients.Where(c => c.IsCompany == true);
-                        foreach (var item in filteredCompanies) { duplicatesResult.Add(item); }
-                        break;
-                    case "notCompanies":
-                        var filteredNotCompanies = _db.Clients.Where(c => c.IsCompany == false);
-                        foreach (var item in filteredNotCompanies) { duplicatesResult.Add(item); }
-                        break;
+                    switch (pair.Key)
+                    {
+                        case "Company":
+                            var filteredCompanies = _db.Clients.Where(c => c.IsCompany == true);
+                            foreach (var item in filteredCompanies) { duplicatesResult.Add(item); }
+                            break;
+                        case "notCompany":
+                            var filteredNotCompanies = _db.Clients.Where(c => c.IsCompany == false);
+                            foreach (var item in filteredNotCompanies) { duplicatesResult.Add(item); }
+                            break;
+                    }
                 }
                 
             }

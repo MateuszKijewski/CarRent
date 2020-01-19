@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\CarRent.DataAccess\CarRent.DataAccess.csproj" />
     <ProjectReference Include="..\CarRent.Repositories\CarRent.Repositories.csproj" />
+    <ProjectReference Include="..\CarRent.Services\CarRent.Services.csproj" />
   </ItemGroup>
 
 </Project>

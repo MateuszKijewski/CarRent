@@ -29,6 +29,7 @@ namespace CarRent.Repositories
         {
             var order = _db.Orders.First(o => o.Id == id);
             order.IsDeleted = true;
+            _db.SaveChanges();
 
             return order.Id;
         }

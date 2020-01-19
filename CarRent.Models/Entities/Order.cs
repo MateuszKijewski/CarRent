@@ -14,6 +14,9 @@ namespace CarRent.Models.Entities
         public Decimal Cost { get; set; }
         public bool IsDeleted { get; set; }
 
+        public ReturnReport ReturnReport { get; set; }
+        public RepairReport RepairReport { get; set; }
+        
         
         public int CarId { get; set; }
         public Car Car { get; set; }

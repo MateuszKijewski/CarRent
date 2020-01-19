@@ -1,6 +1,8 @@
 ﻿using CarRent.DataAccess;
 using CarRent.Models.Converters;
+using CarRent.Models.Converters.Interfaces;
 using CarRent.Repositories;
+using CarRent.Repositories.Interfaces;
 using CarRent.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +39,9 @@ namespace CarRent.App
 
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddSingleton<IOrderConverter, OrderConverter>();
+
+            services.AddTransient<IReportRepository, ReportRepository>();
+            services.AddSingleton<IReportConverter, ReportConverter>();
 
 
             return services.BuildServiceProvider();

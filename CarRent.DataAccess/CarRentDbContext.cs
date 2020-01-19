@@ -15,6 +15,8 @@ namespace CarRent.DataAccess
         public DbSet<Coordinator> Coordinators { get; set; }
         public DbSet<Client> Clients { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<ReturnReport> ReturnReports { get; set; }
+        public DbSet<RepairReport> RepairReports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -44,6 +46,16 @@ namespace CarRent.DataAccess
                 .HasOne(c => c.Region)
                 .WithMany(r => r.Cars)
                 .HasForeignKey(c => c.RegionId);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.ReturnReport)
+                .WithOne(rr => rr.Order)
+                .HasForeignKey<ReturnReport>(rr => rr.OrderId);
+
+            builder.Entity<Order>()
+                .HasOne(o => o.RepairReport)
+                .WithOne(rr => rr.Order)
+                .HasForeignKey<RepairReport>(rr => rr.OrderId);
 
             builder.Entity<Worker>()
                 .HasBaseType("Person");
