@@ -16,5 +16,6 @@ namespace CarRent.Models.Dtos
         public string IdNumber { get; set; }
         public string Pesel { get; set; }
         public bool IsDeleted { get; set; }
+        public string fullName { get; set; }
     }
 }

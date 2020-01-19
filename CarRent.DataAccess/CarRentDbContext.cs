@@ -58,11 +58,11 @@ namespace CarRent.DataAccess
                 .HasForeignKey<RepairReport>(rr => rr.OrderId);
 
             builder.Entity<Worker>()
-                .HasBaseType("Person");
+                .HasBaseType(typeof(Person));
             builder.Entity<Coordinator>()
-                .HasBaseType("Person");
+                .HasBaseType(typeof(Person));
             builder.Entity<Client>()
-                .HasBaseType("Person");
+                .HasBaseType(typeof(Person));
         }
     }
 }

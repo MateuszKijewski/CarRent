@@ -26,7 +26,7 @@ namespace CarRent.Services
             return _clientRepository.Add(client);
         }
 
-        public IEnumerable<GetClientDto> FilterClients(Dictionary<string, string> pairs, string isCompany)
+        public IEnumerable<GetClientDto> FilterClients(Dictionary<string, string> pairs, Dictionary<string, bool> isCompany)
         {
             return _clientRepository.Filter(pairs, isCompany)
                 .Select(c => _clientConverter.ClientToGetClienToDto(c));

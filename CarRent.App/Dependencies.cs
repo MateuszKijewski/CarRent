@@ -21,7 +21,7 @@ namespace CarRent.App
             var optionsBuilder = new DbContextOptionsBuilder<CarRentDbContext>();
             optionsBuilder.UseSqlite("Data Source=sqlite.db");
 
-            services.AddTransient<CarRentDbContext>(sp => new CarRentDbContext(optionsBuilder.Options));
+            services.AddTransient<CarRentDbContext>();
 
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IClientService, ClientService>();
