@@ -14,34 +14,17 @@ namespace CarRent.App
         
         static void Main(string[] args)
         {
-            var services = new ServiceCollection();
-            services.AddDbContext<CarRentDbContext>(factory =>
-            {
-                var connectionString = @"Data Source=sqlite.db;";
-                factory.UseSqlite(connectionString);
-            });
-
-            var provider = services.BuildServiceProvider();
-
-            var db = provider.GetService<CarRentDbContext>();
-            var clientConverter = new ClientConverter();
-            var clientRepository = new ClientRepository(db);
-            var clientService = new ClientService(clientConverter, clientRepository);
-
-
+            var provider = new Dependencies().Load();
+            IClientService clientService = provider.GetService<IClientService>();
             var client = new AddClientDto();
-            client.DriversLicenseNumber = "test";
             client.FirstName = "Jan";
             client.LastName = "Kowalski";
+            client.Pesel = "23232323232";
             client.PhoneNumber = "123321123";
             client.Email = "test@gmail.com";
-            client.Pesel = "124323425";
-            client.IdNumber = "cdf21345";
+            client.IdNumber = "aqdc2134";
             clientService.AddClient(client);
-            var test = clientService.GetClient(1);
-            Console.WriteLine(test.fullName);
-            
-            
+
 
         }
     }

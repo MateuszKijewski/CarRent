@@ -44,7 +44,8 @@ namespace CarRent.Models.Converters
                 Mileage = car.Mileage,
                 IsDeleted = car.IsDeleted,
                 WorkerId = car.WorkerId,
-                WorkerName = car.Worker.FullName()
+                WorkerName = car.Worker.FullName(),
+                Description = car.Description()
             };
         }
     }

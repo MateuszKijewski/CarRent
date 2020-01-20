@@ -10,7 +10,6 @@ namespace CarRent.DataAccess
         { }
 
         public DbSet<Car> Cars { get; set; }
-        public DbSet<Person> People { get; set; }
         public DbSet<Worker> Workers { get; set; }
         public DbSet<Coordinator> Coordinators { get; set; }
         public DbSet<Client> Clients { get; set; }
@@ -20,6 +19,7 @@ namespace CarRent.DataAccess
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+                       
             base.OnModelCreating(builder);
 
             builder.Entity<Worker>()
@@ -30,21 +30,25 @@ namespace CarRent.DataAccess
             builder.Entity<Worker>()
                 .HasOne(w => w.Coordinator)
                 .WithMany(c => c.Workers)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasForeignKey(w => w.CoordinatorId);
 
             builder.Entity<Worker>()
                 .HasOne(w => w.Region)
                 .WithMany(r => r.Workers)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasForeignKey(w => w.RegionId);
 
             builder.Entity<Coordinator>()
                 .HasOne(c => c.Region)
                 .WithMany(r => r.Coordinators)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasForeignKey(c => c.RegionId);
 
             builder.Entity<Car>()
                 .HasOne(c => c.Region)
                 .WithMany(r => r.Cars)
+                .OnDelete(DeleteBehavior.SetNull)
                 .HasForeignKey(c => c.RegionId);
 
             builder.Entity<Order>()
@@ -56,13 +60,6 @@ namespace CarRent.DataAccess
                 .HasOne(o => o.RepairReport)
                 .WithOne(rr => rr.Order)
                 .HasForeignKey<RepairReport>(rr => rr.OrderId);
-
-            builder.Entity<Worker>()
-                .HasBaseType(typeof(Person));
-            builder.Entity<Coordinator>()
-                .HasBaseType(typeof(Person));
-            builder.Entity<Client>()
-                .HasBaseType(typeof(Person));
         }
     }
 }

@@ -22,6 +22,7 @@ namespace CarRent.Models.Dtos
         public bool IsDeleted { get; set; }
         public string WorkerName { get; set; }
         public int WorkerId { get; set; }
+        public string Description { get; set; }
 
     }
 }

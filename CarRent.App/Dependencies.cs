@@ -14,19 +14,17 @@ namespace CarRent.App
 {
     public class Dependencies
     {
-        private IServiceCollection services = new ServiceCollection();
 
+        private IServiceCollection services = new ServiceCollection();
+        
         public IServiceProvider Load()
         {
-            var optionsBuilder = new DbContextOptionsBuilder<CarRentDbContext>();
-            optionsBuilder.UseSqlite("Data Source=sqlite.db");
-
-            services.AddTransient<CarRentDbContext>();
+            services.AddDbContext<CarRentDbContext>();
 
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IClientService, ClientService>();
             services.AddTransient<IWorkerService, WorkerService>();
-            services.AddTransient<IDocumentService, DocumentServices>();
+            services.AddTransient<IDocumentService, DocumentService>();
 
             services.AddTransient<ICarRepository, CarRepository>();
             services.AddSingleton<ICarConverter, CarConverter>();
@@ -44,7 +42,10 @@ namespace CarRent.App
             services.AddSingleton<IReportConverter, ReportConverter>();
 
 
+
             return services.BuildServiceProvider();
         }
+        
+
     }
 }

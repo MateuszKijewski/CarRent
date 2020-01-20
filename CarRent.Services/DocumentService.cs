@@ -12,14 +12,14 @@ using CarRent.Repositories.Interfaces;
 
 namespace CarRent.Services
 {
-    public class DocumentServices : IDocumentService
+    public class DocumentService : IDocumentService
     {
         private readonly IOrderConverter _orderConverter;
         private readonly IOrderRepository _orderRepository;
         private readonly IReportConverter _reportConverter;
         private readonly IReportRepository _reportRepository;
 
-        public DocumentServices(IOrderConverter orderConverter, IOrderRepository orderRepository,
+        public DocumentService(IOrderConverter orderConverter, IOrderRepository orderRepository,
                                 IReportConverter reportConverter, IReportRepository reportRepository)
         {
             _orderConverter = orderConverter;

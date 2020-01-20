@@ -10,9 +10,9 @@ namespace FunWithSqLite.DataAccess.Context
         {
             var builder = new DbContextOptionsBuilder<CarRentDbContext>();
 
-            var connectionString = @"Data Source=sqlite.db;";
-
-            builder.UseSqlite(connectionString);
+            var connectionString = @"Server=(localdb)\mssqllocaldb;Database=CarRent;Integrated Security=True";
+            
+            builder.UseSqlServer(connectionString);
 
             return new CarRentDbContext(builder.Options);
         }
