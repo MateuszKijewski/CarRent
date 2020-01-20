@@ -22,10 +22,8 @@ namespace CarRent.Models.Entities
         public bool IsDeleted { get; set; }
 
 
-        public Worker Worker { get; set; }
-        public int WorkerId { get; set; }
-        public Region Region { get; set; }
-        public int RegionId { get; set; }
+        public Worker? Worker { get; set; }
+        public int? WorkerId { get; set; }
 
         public string Description()
         {

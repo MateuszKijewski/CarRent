@@ -19,7 +19,8 @@ namespace CarRent.App
         
         public IServiceProvider Load()
         {
-            services.AddDbContext<CarRentDbContext>();
+            services.AddDbContext<CarRentDbContext>(options =>
+                options.UseSqlServer(@"Server = (localdb)\mssqllocaldb; Database = CarRent; Integrated Security = True"));
 
             services.AddTransient<ICarService, CarService>();
             services.AddTransient<IClientService, ClientService>();

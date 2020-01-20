@@ -10,8 +10,6 @@ namespace CarRent.Models.Entities
         public string Password { get; set; }
         public bool IsDeleted { get; set; }
 
-        public int RegionId { get; set; }
-        public Region Region { get; set; }
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

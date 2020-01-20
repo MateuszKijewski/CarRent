@@ -18,20 +18,14 @@ namespace CarRent.Models.Entities
         public RepairReport RepairReport { get; set; }
         
         
-        public int CarId { get; set; }
-        public Car Car { get; set; }
+        public int? CarId { get; set; }
+        public Car? Car { get; set; }
 
-        public int WorkerId { get; set; }
-        public Worker Worker { get; set; }
+        public int? WorkerId { get; set; }
+        public Worker? Worker { get; set; }
 
-        public int CoordinatorId { get; set; }
-        public Coordinator Coordinator { get; set; }
-
-        public int RegionId { get; set; }
-        public Region Region { get; set; }
-
-        public int ClientId { get; set; }
-        public Client Client { get; set; }
+        public int? ClientId { get; set; }
+        public Client? Client { get; set; }
         
     }
 }

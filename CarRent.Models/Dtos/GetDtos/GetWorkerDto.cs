@@ -13,7 +13,7 @@ namespace CarRent.Models.Dtos
         public string Email { get; set; }
         public Decimal Salary { get; set; }
         public bool IsDeleted { get; set; }
-        public int CoordinatorId { get; set; }
+        public int? CoordinatorId { get; set; }
         public string CoordinatorName { get; set; }
     }
 }

@@ -32,7 +32,6 @@ namespace CarRent.Models.Converters
 
                 CarId = order.CarId,
                 WorkerId = order.WorkerId,
-                RegionId = order.RegionId,
                 ClientId = order.ClientId
 
             };

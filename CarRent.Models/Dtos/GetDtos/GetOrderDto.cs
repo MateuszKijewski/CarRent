@@ -14,9 +14,8 @@ namespace CarRent.Models.Dtos
         public bool IsDeleted { get; set; }
         public string CarDescription { get; set; }
 
-        public int CarId { get; set; }
-        public int WorkerId { get; set; }
-        public int RegionId { get; set; }
-        public int ClientId { get; set; }
+        public int? CarId { get; set; }
+        public int? WorkerId { get; set; }
+        public int? ClientId { get; set; }
     }
 }

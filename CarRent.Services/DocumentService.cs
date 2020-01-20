@@ -34,8 +34,6 @@ namespace CarRent.Services
             var order = _orderConverter.AddOrderDtoToOrder(addOrderDto);
             order.CarId = carId;
             order.WorkerId = workerId;
-            order.CoordinatorId = coordinatorId;
-            order.RegionId = regionId;
             order.ClientId = clientId;
 
             return _orderRepository.Add(order);

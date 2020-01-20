@@ -19,11 +19,8 @@ namespace CarRent.Models.Entities
             return $"{FirstName} {LastName}";
         }
 
-        public int CoordinatorId { get; set; }
+        public int? CoordinatorId { get; set; }
         public Coordinator Coordinator { get; set; }
-        
-        public int RegionId { get; set; }
-        public Region Region { get; set; }
        
         public Car Car { get; set; }
     }

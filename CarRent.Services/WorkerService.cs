@@ -25,7 +25,6 @@ namespace CarRent.Services
             var worker = _workerConverter.FromAddWorkerDtoToWorker(addWorkerDto);
             worker.IsDeleted = false;
             worker.CoordinatorId = coordinatorId;
-            worker.RegionId = regionId;
 
             return _workerRepository.Add(worker);
             

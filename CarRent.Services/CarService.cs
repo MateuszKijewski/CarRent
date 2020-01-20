@@ -25,7 +25,6 @@ namespace CarRent.Services
             car.IsAway = false;
             car.IsDamaged = false;
             car.IsDeleted = false;
-            car.RegionId = regionId;
 
             _carRepository.Add(car);
             return car.Id;

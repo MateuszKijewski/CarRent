@@ -30,26 +30,7 @@ namespace CarRent.DataAccess
             builder.Entity<Worker>()
                 .HasOne(w => w.Coordinator)
                 .WithMany(c => c.Workers)
-                .OnDelete(DeleteBehavior.SetNull)
                 .HasForeignKey(w => w.CoordinatorId);
-
-            builder.Entity<Worker>()
-                .HasOne(w => w.Region)
-                .WithMany(r => r.Workers)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasForeignKey(w => w.RegionId);
-
-            builder.Entity<Coordinator>()
-                .HasOne(c => c.Region)
-                .WithMany(r => r.Coordinators)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasForeignKey(c => c.RegionId);
-
-            builder.Entity<Car>()
-                .HasOne(c => c.Region)
-                .WithMany(r => r.Cars)
-                .OnDelete(DeleteBehavior.SetNull)
-                .HasForeignKey(c => c.RegionId);
 
             builder.Entity<Order>()
                 .HasOne(o => o.ReturnReport)

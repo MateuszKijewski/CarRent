@@ -59,13 +59,10 @@ namespace CarRent.DataAccess.Migrations
                     b.Property<decimal>("PricePerDay")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("RegionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Transmission")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WorkerId")
+                    b.Property<int?>("WorkerId")
                         .HasColumnType("int");
 
                     b.Property<int>("Year")
@@ -73,10 +70,9 @@ namespace CarRent.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RegionId");
-
                     b.HasIndex("WorkerId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[WorkerId] IS NOT NULL");
 
                     b.ToTable("Cars");
                 });
@@ -148,12 +144,7 @@ namespace CarRent.DataAccess.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RegionId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RegionId");
 
                     b.ToTable("Coordinators");
                 });
@@ -165,13 +156,10 @@ namespace CarRent.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CarId")
+                    b.Property<int?>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CoordinatorId")
+                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Cost")
@@ -186,13 +174,10 @@ namespace CarRent.DataAccess.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("RegionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RentalTime")
                         .HasColumnType("int");
 
-                    b.Property<int>("WorkerId")
+                    b.Property<int?>("WorkerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -201,34 +186,9 @@ namespace CarRent.DataAccess.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("CoordinatorId");
-
-                    b.HasIndex("RegionId");
-
                     b.HasIndex("WorkerId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("CarRent.Models.Entities.Region", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Potential")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Region");
                 });
 
             modelBuilder.Entity("CarRent.Models.Entities.RepairReport", b =>
@@ -298,7 +258,7 @@ namespace CarRent.DataAccess.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CoordinatorId")
+                    b.Property<int?>("CoordinatorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -316,9 +276,6 @@ namespace CarRent.DataAccess.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RegionId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Salary")
                         .HasColumnType("decimal(18,2)");
 
@@ -326,66 +283,29 @@ namespace CarRent.DataAccess.Migrations
 
                     b.HasIndex("CoordinatorId");
 
-                    b.HasIndex("RegionId");
-
                     b.ToTable("Workers");
                 });
 
             modelBuilder.Entity("CarRent.Models.Entities.Car", b =>
                 {
-                    b.HasOne("CarRent.Models.Entities.Region", "Region")
-                        .WithMany("Cars")
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
                     b.HasOne("CarRent.Models.Entities.Worker", "Worker")
                         .WithOne("Car")
-                        .HasForeignKey("CarRent.Models.Entities.Car", "WorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CarRent.Models.Entities.Coordinator", b =>
-                {
-                    b.HasOne("CarRent.Models.Entities.Region", "Region")
-                        .WithMany("Coordinators")
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .HasForeignKey("CarRent.Models.Entities.Car", "WorkerId");
                 });
 
             modelBuilder.Entity("CarRent.Models.Entities.Order", b =>
                 {
                     b.HasOne("CarRent.Models.Entities.Car", "Car")
                         .WithMany()
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CarId");
 
                     b.HasOne("CarRent.Models.Entities.Client", "Client")
                         .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarRent.Models.Entities.Coordinator", "Coordinator")
-                        .WithMany()
-                        .HasForeignKey("CoordinatorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarRent.Models.Entities.Region", "Region")
-                        .WithMany()
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClientId");
 
                     b.HasOne("CarRent.Models.Entities.Worker", "Worker")
                         .WithMany()
-                        .HasForeignKey("WorkerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WorkerId");
                 });
 
             modelBuilder.Entity("CarRent.Models.Entities.RepairReport", b =>
@@ -410,15 +330,7 @@ namespace CarRent.DataAccess.Migrations
                 {
                     b.HasOne("CarRent.Models.Entities.Coordinator", "Coordinator")
                         .WithMany("Workers")
-                        .HasForeignKey("CoordinatorId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
-
-                    b.HasOne("CarRent.Models.Entities.Region", "Region")
-                        .WithMany("Workers")
-                        .HasForeignKey("RegionId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .HasForeignKey("CoordinatorId");
                 });
 #pragma warning restore 612, 618
         }
