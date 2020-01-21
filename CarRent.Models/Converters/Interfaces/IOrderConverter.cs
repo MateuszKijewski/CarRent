@@ -10,5 +10,6 @@ namespace CarRent.Models.Converters
     {
         GetOrderDto OrderToGetOrderDto(Order order);
         Order AddOrderDtoToOrder(AddOrderDto addOrderDto);
+        Order UpdateOrderDtoToOrder(UpdateOrderDto updateOrderDto);
     }
 }

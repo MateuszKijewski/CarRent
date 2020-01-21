@@ -12,6 +12,7 @@ namespace CarRent.Repositories.Interfaces
         int DeleteReturnReport(int id);
         IEnumerable<ReturnReport> GetAllReturnReports();
         IEnumerable<ReturnReport> FilterReturnReports(int[] drivenDistanceRange, DateTime[] dateRange, Dictionary<string, bool> damaged);
+        ReturnReport UpdateReturnReport(int id, ReturnReport returnReport);
 
 
         int AddRepairReport(RepairReport repairReport);
@@ -19,5 +20,6 @@ namespace CarRent.Repositories.Interfaces
         int DeleteRepairReport(int id);
         IEnumerable<RepairReport> GetAllRepairReports();
         IEnumerable<RepairReport> FilterRepairReports(string description, Decimal[] costRange, int[] timeRange);
+        RepairReport UpdateRepairReport(int id, RepairReport repairReport);
     }
 }

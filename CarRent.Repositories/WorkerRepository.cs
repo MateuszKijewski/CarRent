@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using CarRent.DataAccess;
 using CarRent.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRent.Repositories
 {
@@ -51,22 +53,22 @@ namespace CarRent.Repositories
                 switch (pair.Key)
                 {
                     case "FirstName":
-                        var filteredFirstNames = _db.Workers.Where(w => w.FirstName.Contains($"/{pair}/"));
+                        var filteredFirstNames = _db.Workers.Where(w => EF.Functions.Like(w.FirstName, $"%{pair.Value}%"));
                         foreach (var item in filteredFirstNames) { duplicatesResult.Add(item); }
                         break;
 
                     case "LastName":
-                        var filteredLastNames = _db.Workers.Where(w => w.LastName.Contains($"/{pair}/"));
+                        var filteredLastNames = _db.Workers.Where(w => EF.Functions.Like(w.LastName, $"%{pair.Value}%"));
                         foreach (var item in filteredLastNames) { duplicatesResult.Add(item); }
                         break;
 
-                    case "Phone":
-                        var filteredPhoneNumbers = _db.Workers.Where(w => w.PhoneNumber.Contains($"/{pair}/"));
+                    case "PhoneNumber":
+                        var filteredPhoneNumbers = _db.Workers.Where(w => EF.Functions.Like(w.PhoneNumber, $"%{pair.Value}%"));
                         foreach (var item in filteredPhoneNumbers) { duplicatesResult.Add(item); }
                         break;
 
                     case "Email":
-                        var filteredEmails = _db.Workers.Where(w => w.Email.Contains($"/{pair}/"));
+                        var filteredEmails = _db.Workers.Where(w => EF.Functions.Like(w.Email, $"%{pair.Value}%"));
                         foreach (var item in filteredEmails) { duplicatesResult.Add(item); }
                         break;
                 }
@@ -84,6 +86,22 @@ namespace CarRent.Repositories
         public IEnumerable<Worker> GetAll()
         {
             return _db.Workers;
+        }
+
+        public Worker Update(int id, Worker worker)
+        {
+            var currentRecord = _db.Workers.First(w => w.Id == id);
+            foreach (PropertyInfo property in worker.GetType().GetProperties())
+            {
+                var value = worker.GetType().GetProperty(property.Name).GetValue(worker, null);
+                if (value != null && property.Name.ToLower() != "id")
+                {
+                    currentRecord.GetType().GetProperty(property.Name).SetValue(currentRecord, value);
+                }
+            }
+            _db.SaveChanges();
+
+            return currentRecord;
         }
     }
 }

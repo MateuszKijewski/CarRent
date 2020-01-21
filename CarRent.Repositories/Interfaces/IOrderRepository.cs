@@ -12,5 +12,6 @@ namespace CarRent.Repositories
         int Delete(int id);
         IEnumerable<Order> GetAll();
         IEnumerable<Order> Filter(string deliveryPlace, int[] rentalTimeRange, Decimal[] costRange, DateTime[] dateRange);
+        Order Update(int id, Order order);
     }
 }

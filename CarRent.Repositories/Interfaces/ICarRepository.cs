@@ -12,5 +12,6 @@ namespace CarRent.Repositories
         int Add(Car car);
         int Delete(int id);
         IEnumerable<Car> Filter(Dictionary<string, string> stringQueries, Dictionary<string, int[]> intQueries);
+        Car Update(int id, Car car);
     }
 }

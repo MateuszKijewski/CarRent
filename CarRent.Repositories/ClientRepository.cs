@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using CarRent.DataAccess;
 using CarRent.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRent.Repositories
 {
@@ -61,37 +63,37 @@ namespace CarRent.Repositories
                 switch (pair.Key)
                 {
                     case "FirstName":
-                        var filteredFirstNames = _db.Clients.Where(c => c.FirstName.Contains($"/{pair}/"));
+                        var filteredFirstNames = _db.Clients.Where(c => EF.Functions.Like(c.FirstName, $"%{pair.Value}%"));
                         foreach (var item in filteredFirstNames) { duplicatesResult.Add(item); }
                         break;
 
                     case "LastName":
-                        var filteredLastNames = _db.Clients.Where(c => c.LastName.Contains($"/{pair}/"));
+                        var filteredLastNames = _db.Clients.Where(c => EF.Functions.Like(c.LastName,$"%{pair.Value}%"));
                         foreach (var item in filteredLastNames) { duplicatesResult.Add(item); }
                         break;
 
-                    case "Phone":
-                        var filteredPhoneNumbers = _db.Clients.Where(c => c.PhoneNumber.Contains($"/{pair}/"));
+                    case "PhoneNumber":
+                        var filteredPhoneNumbers = _db.Clients.Where(c => EF.Functions.Like(c.PhoneNumber, $"%{pair.Value}%"));
                         foreach (var item in filteredPhoneNumbers) { duplicatesResult.Add(item); }
                         break;
 
                     case "Email":
-                        var filteredEmails = _db.Clients.Where(c => c.Email.Contains($"/{pair}/"));
+                        var filteredEmails = _db.Clients.Where(c => EF.Functions.Like(c.Email, $"%{pair.Value}%"));
                         foreach (var item in filteredEmails) { duplicatesResult.Add(item); }
                         break;
 
                     case "DriversLicenseNumber":
-                        var filteredLicenses = _db.Clients.Where(c => c.DriversLicenseNumber.Contains($"/{pair}/"));
+                        var filteredLicenses = _db.Clients.Where(c => EF.Functions.Like(c.DriversLicenseNumber, $"%{pair.Value}%"));
                         foreach (var item in filteredLicenses) { duplicatesResult.Add(item); }
                         break;
 
                     case "IdNumber":
-                        var filteredIds = _db.Clients.Where(c => c.IdNumber.Contains($"/{pair}/"));
+                        var filteredIds = _db.Clients.Where(c => EF.Functions.Like(c.IdNumber, $"%{pair.Value}%"));
                         foreach (var item in filteredIds) { duplicatesResult.Add(item); }
                         break;
 
                     case "Pesel":
-                        var filteredPesels = _db.Clients.Where(c => c.Pesel.Contains($"/{pair}/"));
+                        var filteredPesels = _db.Clients.Where(c => EF.Functions.Like(c.Pesel, $"%{pair.Value}%"));
                         foreach (var item in filteredPesels) { duplicatesResult.Add(item); }
                         break;
                 }
@@ -109,6 +111,22 @@ namespace CarRent.Repositories
         public IEnumerable<Client> GetAll()
         {
             return _db.Clients;
+        }
+
+        public Client Update(int id, Client client)
+        {
+            var currentRecord = _db.Clients.First(c => c.Id == id);
+            foreach (PropertyInfo property in client.GetType().GetProperties())
+            {
+                var value = client.GetType().GetProperty(property.Name).GetValue(client, null);
+                if (value != null && property.Name.ToLower() != "id")
+                {
+                    currentRecord.GetType().GetProperty(property.Name).SetValue(currentRecord, value);
+                }
+            }
+            _db.SaveChanges();
+
+            return currentRecord;
         }
     }
 }

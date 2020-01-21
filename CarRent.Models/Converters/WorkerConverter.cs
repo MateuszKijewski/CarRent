@@ -36,5 +36,17 @@ namespace CarRent.Models.Converters
 
             };         
         }
+
+        public Worker UpdateWorkerDtoToWorker(UpdateWorkerDto updateWorkerDto)
+        {
+            return new Worker
+            {
+                FirstName = updateWorkerDto.FirstName,
+                LastName = updateWorkerDto.LastName,
+                Email = updateWorkerDto.Email,
+                PhoneNumber = updateWorkerDto.PhoneNumber,
+                Salary = updateWorkerDto.Salary
+            };
+        }
     }
 }

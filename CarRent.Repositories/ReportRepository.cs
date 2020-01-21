@@ -1,9 +1,11 @@
 ﻿using CarRent.DataAccess;
 using CarRent.Models.Entities;
 using CarRent.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace CarRent.Repositories
@@ -57,8 +59,8 @@ namespace CarRent.Repositories
             List<RepairReport> duplicatesResult = new List<RepairReport>();
             if (description != null)
             {
-                var filteredDescriptions = _db.RepairReports.Where(rr => rr.Description.Contains($"/{description}/"));
-                foreach(var item in filteredDescriptions) { duplicatesResult.Add(item); }
+                var filteredDescriptions = _db.RepairReports.Where(rr => EF.Functions.Like(rr.Description, $"%{description}%"));
+                foreach (var item in filteredDescriptions) { duplicatesResult.Add(item); }
             }
             if (costRange != null)
             {
@@ -133,6 +135,38 @@ namespace CarRent.Repositories
         public ReturnReport GetReturnReport(int id)
         {
             return _db.ReturnReports.First(rr => rr.Id == id);
+        }
+
+        public RepairReport UpdateRepairReport(int id, RepairReport repairReport)
+        {
+            var currentRecord = _db.RepairReports.First(rr => rr.Id == id);
+            foreach (PropertyInfo property in repairReport.GetType().GetProperties())
+            {
+                var value = repairReport.GetType().GetProperty(property.Name).GetValue(repairReport, null);
+                if (value != null && property.Name.ToLower() != "id")
+                {
+                    currentRecord.GetType().GetProperty(property.Name).SetValue(currentRecord, value);
+                }
+            }
+            _db.SaveChanges();
+
+            return currentRecord;
+        }
+
+        public ReturnReport UpdateReturnReport(int id, ReturnReport returnReport)
+        {
+            var currentRecord = _db.ReturnReports.First(rr => rr.Id == id);
+            foreach (PropertyInfo property in returnReport.GetType().GetProperties())
+            {
+                var value = returnReport.GetType().GetProperty(property.Name).GetValue(returnReport, null);
+                if (value != null && property.Name.ToLower() != "id")
+                {
+                    currentRecord.GetType().GetProperty(property.Name).SetValue(currentRecord, value);
+                }
+            }
+            _db.SaveChanges();
+
+            return currentRecord;
         }
     }
 }

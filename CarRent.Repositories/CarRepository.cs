@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using CarRent.DataAccess;
 using CarRent.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRent.Repositories
 {
@@ -77,33 +79,33 @@ namespace CarRent.Repositories
                     switch (pair.Key)
                     {
                         case "Brand":
-                            var filteredBrands = _db.Cars.Where(c => c.Brand.Contains($"/{pair}/"));
-                            foreach (var item in filteredBrands) { duplicatesResult.Add(item); }
+                            var filteredBrands = _db.Cars.Where(c => EF.Functions.Like(c.Brand, $"%{pair.Value}%"));
+                        foreach (var item in filteredBrands) { duplicatesResult.Add(item); }
                             break;
 
                         case "Model":
-                            var filteredModels = _db.Cars.Where(c => c.Model.Contains($"/{pair}/"));
-                            foreach (var item in filteredModels) { duplicatesResult.Add(item); }
+                            var filteredModels = _db.Cars.Where(c => EF.Functions.Like(c.Model, $"%{pair.Value}%"));
+                        foreach (var item in filteredModels) { duplicatesResult.Add(item); }
                             break;
 
                         case "Engine":
-                            var filteredEngines = _db.Cars.Where(c => c.Engine.Contains($"/{pair}/"));
-                            foreach (var item in filteredEngines) { duplicatesResult.Add(item); }
+                            var filteredEngines = _db.Cars.Where(c => EF.Functions.Like(c.Engine, $"%{pair.Value}%"));
+                        foreach (var item in filteredEngines) { duplicatesResult.Add(item); }
                             break;
 
                         case "Transmission":
-                            var filteredTransmissions = _db.Cars.Where(c => c.Transmission.Contains($"/{pair}/"));
-                            foreach (var item in filteredTransmissions) { duplicatesResult.Add(item); }
+                            var filteredTransmissions = _db.Cars.Where(c => EF.Functions.Like(c.Transmission, $"%{pair.Value}%"));
+                        foreach (var item in filteredTransmissions) { duplicatesResult.Add(item); }
                             break;
 
                         case "FuelType":
-                            var filteredFuelTypes = _db.Cars.Where(c => c.FuelType.Contains($"/{pair}/"));
-                            foreach (var item in filteredFuelTypes) { duplicatesResult.Add(item); }
+                            var filteredFuelTypes = _db.Cars.Where(c => EF.Functions.Like(c.FuelType, $"%{pair.Value}%"));
+                        foreach (var item in filteredFuelTypes) { duplicatesResult.Add(item); }
                             break;
 
                         case "Color":
-                            var filteredColors = _db.Cars.Where(c => c.Color.Contains($"/{pair}/"));
-                            foreach (var item in filteredColors) { duplicatesResult.Add(item); }
+                            var filteredColors = _db.Cars.Where(c => EF.Functions.Like(c.Color, $"%{pair.Value}%"));
+                        foreach (var item in filteredColors) { duplicatesResult.Add(item); }
                             break;
 
                     }
@@ -111,6 +113,22 @@ namespace CarRent.Repositories
 
                 List<Car> finalResult = duplicatesResult.Distinct().ToList();
                 return finalResult;
+        }
+
+        public Car Update(int id, Car car)
+        {
+            var currentRecord = _db.Cars.First(c => c.Id == id);
+            foreach (PropertyInfo property in car.GetType().GetProperties())
+            {
+                var value = car.GetType().GetProperty(property.Name).GetValue(car, null);
+                if (value != null && property.Name.ToLower() != "id")
+                {
+                    currentRecord.GetType().GetProperty(property.Name).SetValue(currentRecord, value);
+                }
+            }
+            _db.SaveChanges();
+
+            return currentRecord;
         }
     }
 }

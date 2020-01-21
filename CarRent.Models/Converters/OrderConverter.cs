@@ -36,5 +36,15 @@ namespace CarRent.Models.Converters
 
             };
         }
+
+        public Order UpdateOrderDtoToOrder(UpdateOrderDto updateOrderDto)
+        {
+            return new Order
+            {
+                OrderDate = updateOrderDto.OrderDate,
+                RentalTime = updateOrderDto.RentalTime,
+                DeliveryPlace = updateOrderDto.DeliveryPlace
+            };
+        }
     }
 }

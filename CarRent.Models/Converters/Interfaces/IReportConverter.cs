@@ -14,5 +14,8 @@ namespace CarRent.Models.Converters.Interfaces
 
         GetReturnReportDto ReturnReportToGetReturnReportDto(ReturnReport returnReport);
         GetRepairReportDto RepairReportToGetRepairReportDto(RepairReport repairReport);
+
+        ReturnReport UpdateReturnReportDtoToReturnReport(UpdateReturnReportDto updateReturnReportDto);
+        RepairReport UpdateRepairReportDtoToRepairReport(UpdateRepairReportDto updateRepairReportDto);
     }
 }

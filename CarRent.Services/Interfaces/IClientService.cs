@@ -8,8 +8,10 @@ namespace CarRent.Services
     public interface IClientService
     {
         int AddClient(AddClientDto addClientDto);
+        string DeleteClient(int id);
         IEnumerable<GetClientDto> FilterClients(Dictionary<string, string> pairs, Dictionary<string, bool> isCompany);
         IEnumerable<GetClientDto> GetAllClients();
         GetClientDto GetClient(int id);
+        public GetClientDto UpdateClient(int id, UpdateClientDto updateClientDto);
     }
 }

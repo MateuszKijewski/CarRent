@@ -9,6 +9,7 @@ namespace CarRent.Models.Converters
     public interface IWorkerConverter
     {
         Worker FromAddWorkerDtoToWorker(AddWorkerDto addWorkerDto);
-        GetWorkerDto FromWorkerToGetWorkerDto(Worker worker); 
+        GetWorkerDto FromWorkerToGetWorkerDto(Worker worker);
+        Worker UpdateWorkerDtoToWorker(UpdateWorkerDto updateWorkerDto);
     }
 }

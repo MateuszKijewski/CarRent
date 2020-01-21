@@ -48,5 +48,22 @@ namespace CarRent.Models.Converters
                 Description = car.Description()
             };
         }
+
+        public Car FromUpdateCarDtoToCar(UpdateCarDto updateCarDto)
+        {
+            return new Car
+            {
+                LicensePlateNumber = updateCarDto.LicensePlateNumber,
+                Brand = updateCarDto.Brand,
+                Model = updateCarDto.Model,
+                Engine = updateCarDto.Engine,
+                Year = updateCarDto.Year,
+                Transmission = updateCarDto.Transmission,
+                FuelType = updateCarDto.FuelType,
+                Color = updateCarDto.Color,
+                PricePerDay = updateCarDto.PricePerDay,
+                Mileage = updateCarDto.Mileage
+            };
+        }
     }
 }

@@ -8,7 +8,8 @@ namespace CarRent.Models.Converters
 {
     public interface IClientConverter
     {
-        GetClientDto ClientToGetClienToDto(Client client);
+        GetClientDto ClientToGetClientDto(Client client);
         Client AddClientDtoToClient(AddClientDto addClientDto);
+        Client UpdateClientDtoToClient(UpdateClientDto updateClientDto);
     }
 }

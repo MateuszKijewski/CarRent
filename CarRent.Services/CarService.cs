@@ -18,7 +18,7 @@ namespace CarRent.Services
             _carRepository = carRepository;            
         }
 
-        public int AddCar(int regionId, AddCarDto addCarDto)
+        public int AddCar(AddCarDto addCarDto)
         {
             var car = _carConverter.FromAddCarDtoToCar(addCarDto);
             
@@ -54,6 +54,11 @@ namespace CarRent.Services
                 .Select(c => _carConverter.FromCarToGetCarDto(c));
         }
 
+        public GetCarDto UpdateCar(int id, UpdateCarDto updateCarDto)
+        {
+            var updateCar = _carConverter.FromUpdateCarDtoToCar(updateCarDto);
+            return _carConverter.FromCarToGetCarDto(_carRepository.Update(id, updateCar));
+        }
 
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using CarRent.DataAccess;
 using CarRent.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarRent.Repositories
 {
@@ -39,8 +41,8 @@ namespace CarRent.Repositories
             List<Order> duplicatesResult = new List<Order>();
             if (deliveryPlace != null)
             {
-                var filteredPlaces = _db.Orders.Where(o => o.DeliveryPlace.Contains($"/{deliveryPlace}/"));
-                foreach(var item in filteredPlaces) { duplicatesResult.Add(item); }
+                var filteredPlaces = _db.Orders.Where(o => EF.Functions.Like(o.DeliveryPlace, $"%{deliveryPlace}%"));
+                foreach (var item in filteredPlaces) { duplicatesResult.Add(item); }
             }
             if (rentalTimeRange != null)
             {
@@ -74,6 +76,22 @@ namespace CarRent.Repositories
         public IEnumerable<Order> GetAll()
         {
             return _db.Orders;
+        }
+
+        public Order Update(int id, Order order)
+        {
+            var currentRecord = _db.Orders.First(o => o.Id == id);
+            foreach (PropertyInfo property in order.GetType().GetProperties())
+            {
+                var value = order.GetType().GetProperty(property.Name).GetValue(order, null);
+                if (value != null && property.Name.ToLower() != "id")
+                {
+                    currentRecord.GetType().GetProperty(property.Name).SetValue(currentRecord, value);
+                }
+            }
+            _db.SaveChanges();
+
+            return currentRecord;
         }
     }
 }

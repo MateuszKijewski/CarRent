@@ -29,7 +29,7 @@ namespace CarRent.Services
         }
         
         /* Add to DB actions */
-        public int AddOrder(int carId, int workerId, int coordinatorId, int regionId, int clientId, AddOrderDto addOrderDto)
+        public int AddOrder(int carId, int workerId, int clientId, AddOrderDto addOrderDto)
         {
             var order = _orderConverter.AddOrderDtoToOrder(addOrderDto);
             order.CarId = carId;
@@ -56,19 +56,22 @@ namespace CarRent.Services
         }
 
         /* Delete from DB actions */
-        public int DeleteOrder(int id)
+        public string DeleteOrder(int id)
         {
-            return _orderRepository.Delete(id);
+            _orderRepository.Delete(id);
+            return $"Order with id {id} was succesfuly deleted";
         }
 
-        public int DeleteRepairReport(int id)
+        public string DeleteRepairReport(int id)
         {
-            return _reportRepository.DeleteRepairReport(id);
+            _reportRepository.DeleteRepairReport(id);
+            return $"Repair report with id {id} was succesfuly deleted";
         }
 
-        public int DeleteReturnReport(int id)
+        public string DeleteReturnReport(int id)
         {
-            return _reportRepository.DeleteReturnReport(id);
+            _reportRepository.DeleteReturnReport(id);
+            return $"Return report with id {id} was succesfuly deleted";
         }
 
         /* Filter from Db actions */
@@ -124,6 +127,25 @@ namespace CarRent.Services
         public GetReturnReportDto GetReturnReport(int id)
         {
             return _reportConverter.ReturnReportToGetReturnReportDto(_reportRepository.GetReturnReport(id));
+        }
+
+        /* Update in Db actions */
+        public GetOrderDto UpdateOrder(int id, UpdateOrderDto updateOrderDto)
+        {
+            var updateOrder = _orderConverter.UpdateOrderDtoToOrder(updateOrderDto);
+            return _orderConverter.OrderToGetOrderDto(_orderRepository.Update(id, updateOrder)); 
+        }
+
+        public GetRepairReportDto UpdateRepairReport(int id, UpdateRepairReportDto updateRepairReportDto)
+        {
+            var updateRepairReport = _reportConverter.UpdateRepairReportDtoToRepairReport(updateRepairReportDto);
+            return _reportConverter.RepairReportToGetRepairReportDto(_reportRepository.UpdateRepairReport(id, updateRepairReport));
+        }
+
+        public GetReturnReportDto UpdateReturnReport(int id, UpdateReturnReportDto updateReturnReportDto)
+        {
+            var updateReturnReport = _reportConverter.UpdateReturnReportDtoToReturnReport(updateReturnReportDto);
+            return _reportConverter.ReturnReportToGetReturnReportDto(_reportRepository.UpdateReturnReport(id, updateReturnReport));
         }
     }
 }

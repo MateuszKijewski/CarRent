@@ -55,5 +55,23 @@ namespace CarRent.Models.Converters
                 OrderId = returnReport.OrderId
             };
         }
+        public ReturnReport UpdateReturnReportDtoToReturnReport(UpdateReturnReportDto updateReturnReportDto)
+        {
+            return new ReturnReport
+            {
+                DrivenDistance = updateReturnReportDto.DrivenDistance,
+                IsDamaged = updateReturnReportDto.IsDamaged,
+                ReturnDate = updateReturnReportDto.ReturnDate
+            };
+        }
+        public RepairReport UpdateRepairReportDtoToRepairReport(UpdateRepairReportDto updateRepairReportDto)
+        {
+            return new RepairReport
+            {
+                Description = updateRepairReportDto.Description,
+                Cost = updateRepairReportDto.Cost,
+                Time = updateRepairReportDto.Time
+            };
+        }
     }
 }

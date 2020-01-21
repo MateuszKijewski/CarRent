@@ -9,6 +9,7 @@ namespace CarRent.Models.Converters
     public interface ICarConverter
     {
         Car FromAddCarDtoToCar(AddCarDto addCarDto);
-        GetCarDto FromCarToGetCarDto(Car car);        
+        GetCarDto FromCarToGetCarDto(Car car);
+        Car FromUpdateCarDtoToCar(UpdateCarDto updateCarDto);
     }
 }
