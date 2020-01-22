@@ -91,7 +91,7 @@ namespace CarRent.Repositories
 
             
             List<Order> finalResult = duplicatesResult.Distinct().ToList();
-            return finalResult;
+            return finalResult.Where(o => o.IsDeleted == false);
 
         }
 
@@ -102,7 +102,7 @@ namespace CarRent.Repositories
 
         public IEnumerable<Order> GetAll()
         {
-            return _db.Orders;
+            return _db.Orders.Where(o => o.IsDeleted == false);
         }
 
         public Order Update(int id, Order order)

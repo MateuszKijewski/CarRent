@@ -141,17 +141,17 @@ namespace CarRent.Repositories
                     finalResult.Add(g.Key);
                 }
             }
-            return finalResult;
+            return finalResult.Where(rr => rr.IsDeleted == false);
         }
 
         public IEnumerable<RepairReport> GetAllRepairReports()
         {
-            return _db.RepairReports;
+            return _db.RepairReports.Where(rr => rr.IsDeleted == false);
         }
 
         public IEnumerable<ReturnReport> GetAllReturnReports()
         {
-            return _db.ReturnReports;
+            return _db.ReturnReports.Where(rr => rr.IsDeleted == false);
         }
 
         public RepairReport GetRepairReport(int id)

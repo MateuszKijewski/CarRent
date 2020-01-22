@@ -15,6 +15,7 @@ namespace CarRent.Services
         IEnumerable<GetOrderDto> GetAllOrders();
         IEnumerable<GetOrderDto> FilterOrders(string deliveryPlace, int[] rentalTimeRange, decimal[] costRange, DateTime[] dateRange, Dictionary<string, bool> finished);
         GetOrderDto UpdateOrder(int id, UpdateOrderDto updateOrderDto);
+        string FinishOrder(int id);
 
         string AddRepairReport(int orderId, AddRepairReportDto addRepairReport);
         GetRepairReportDto GetRepairReport(int id);

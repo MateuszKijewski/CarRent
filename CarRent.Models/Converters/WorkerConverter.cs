@@ -32,7 +32,6 @@ namespace CarRent.Models.Converters
                 Salary = worker.Salary,
                 IsDeleted = worker.IsDeleted,
                 CoordinatorId = worker.CoordinatorId,
-                CoordinatorName = worker.Coordinator.LastName,
 
             };         
         }

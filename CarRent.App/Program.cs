@@ -29,7 +29,7 @@ namespace CarRent.App
             int[] zakres = {2017, 2019};
             intQuery.Add("Year", zakres);
             
-            var cars = carService.FilterCars(stringQuery, null);
+            var cars = carService.FilterCars(stringQuery, null, null);
             foreach(var car in cars)
             {
                 Console.WriteLine(car.Description);

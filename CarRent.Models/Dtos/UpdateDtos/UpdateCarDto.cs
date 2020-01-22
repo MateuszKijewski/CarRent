@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CarRent.Models.Dtos
 {
@@ -17,5 +18,29 @@ namespace CarRent.Models.Dtos
         public string Color { get; set; }
         public Decimal PricePerDay { get; set; }
         public int Mileage { get; set; }
+
+        public bool Validate()
+        {
+            Regex alphanumeric = new Regex("^[a-zA-Z0-9]*$");
+
+            if ( (!alphanumeric.IsMatch(LicensePlateNumber))
+                || (!alphanumeric.IsMatch(Brand))
+                || (!alphanumeric.IsMatch(Model))
+                || (!alphanumeric.IsMatch(Engine))                
+                || (!alphanumeric.IsMatch(Transmission))
+                || (!alphanumeric.IsMatch(FuelType))
+                || (!alphanumeric.IsMatch(Color)))
+            {
+                return false;
+            }
+
+            int currentYear = DateTime.Now.Year;
+            if (Year < (currentYear - 100) || (Year > currentYear))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

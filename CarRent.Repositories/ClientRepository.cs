@@ -105,7 +105,7 @@ namespace CarRent.Repositories
             else { queryCount += stringQueries.Count; }
 
             List<Client> finalResult = duplicatesResult.Distinct().ToList();
-            return finalResult;
+            return finalResult.Where(c => c.IsDeleted == false);
         }
 
         public Client Get(int id)
@@ -115,7 +115,7 @@ namespace CarRent.Repositories
 
         public IEnumerable<Client> GetAll()
         {
-            return _db.Clients;
+            return _db.Clients.Where(c => c.IsDeleted == false);
         }
 
         public Client Update(int id, Client client)

@@ -21,6 +21,11 @@ namespace CarRent.Services
 
         public string AddClient(AddClientDto addClientDto)
         {
+            if (!addClientDto.Validate())
+            {
+                return "Validation error!";
+            }
+
             var client = _clientConverter.AddClientDtoToClient(addClientDto);
             client.IsDeleted = false;
             _clientRepository.Add(client);

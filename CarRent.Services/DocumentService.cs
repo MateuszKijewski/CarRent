@@ -33,19 +33,48 @@ namespace CarRent.Services
             _workerRepository = workerRepository;
         }
         
+        public string FinishOrder(int id)
+        {
+            var order = _orderRepository.Get(id);
+            var car = _carRepository.Get(order.CarId.Value);
+            var worker = _workerRepository.Get(order.WorkerId.Value);
+
+            car.WorkerId = null;
+            car.Worker = null;
+            car.IsAway = false;
+
+            worker.Car = null;
+
+            order.Finished = true;
+
+            return $"Order with id {order.Id} was successfuly finished";
+        }
+
         /* Add to DB actions */
         public string AddOrder(int carId, int workerId, int clientId, AddOrderDto addOrderDto)
         {
+            if (!addOrderDto.Validate())
+            {
+                return "Validation error!";
+            }
+
             var order = _orderConverter.AddOrderDtoToOrder(addOrderDto);
+            var car = _carRepository.Get(carId);
+            var worker = _workerRepository.Get(workerId);
+
+            car.WorkerId = worker.Id;
+            car.Worker = worker;
+            car.IsAway = true;
+
+            worker.Car = car;
+
             order.CarId = carId;
             order.WorkerId = workerId;
-            var car = _carRepository.Get(carId);
-            car.WorkerId = workerId;
-            _workerRepository.Get(workerId).Car = car;
             order.ClientId = clientId;
-
-
+            order.Finished = false;
+            order.Cost = order.RentalTime * car.PricePerDay;
             _orderRepository.Add(order);
+
             return $"Order with id {order.Id} was succesfuly deleted";
         }
 

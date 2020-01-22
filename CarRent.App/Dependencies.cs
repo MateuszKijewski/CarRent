@@ -42,6 +42,7 @@ namespace CarRent.App
             services.AddTransient<IReportRepository, ReportRepository>();
             services.AddSingleton<IReportConverter, ReportConverter>();
 
+            services.AddSingleton<ICoordinatorConverter, CoordinatorConverter>();
 
 
             return services.BuildServiceProvider();

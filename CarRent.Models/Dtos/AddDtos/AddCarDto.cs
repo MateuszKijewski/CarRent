@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CarRent.Models.Dtos
 {
@@ -17,5 +18,32 @@ namespace CarRent.Models.Dtos
         public string Color { get; set; }
         public Decimal PricePerDay { get; set; }
         public int Mileage { get; set; }
+
+        public bool Validate()
+        {
+            Regex alphanumeric = new Regex("^[a-zA-Z0-9]*$");
+
+            if (string.IsNullOrEmpty(LicensePlateNumber) || (!alphanumeric.IsMatch(LicensePlateNumber))
+                || string.IsNullOrEmpty(Brand) || (!alphanumeric.IsMatch(Brand))
+                || string.IsNullOrEmpty(Model) || (!alphanumeric.IsMatch(Model))
+                || string.IsNullOrEmpty(Engine) || (!alphanumeric.IsMatch(Engine))
+                || string.IsNullOrEmpty(Year.ToString())
+                || string.IsNullOrEmpty(Transmission) || (!alphanumeric.IsMatch(Transmission))
+                || string.IsNullOrEmpty(FuelType) || (!alphanumeric.IsMatch(FuelType))
+                || string.IsNullOrEmpty(Color) || (!alphanumeric.IsMatch(Color))
+                || string.IsNullOrEmpty(PricePerDay.ToString())
+                || string.IsNullOrEmpty(Mileage.ToString()))
+            {
+                return false;
+            }            
+
+            int currentYear = DateTime.Now.Year;
+            if (Year < (currentYear - 100) || (Year > currentYear))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

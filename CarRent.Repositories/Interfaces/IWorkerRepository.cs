@@ -11,7 +11,7 @@ namespace CarRent.Repositories
         IEnumerable<Worker> GetAll();
         int Add(Worker worker);
         int Delete(int id);
-        IEnumerable<Worker> Filter(Dictionary<string, string> stringQueries, int[] salaryRange);
+        IEnumerable<Worker> Filter(Dictionary<string, string> stringQueries, int[] salaryRange, int coordinatorId);
         Worker Update(int id, Worker worker);
     }
 }

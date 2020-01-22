@@ -25,7 +25,7 @@ namespace CarRent.Repositories
 
         public IEnumerable<Car> GetAll()
         {
-            return _db.Cars;
+            return _db.Cars.Where(c => c.IsDeleted == false);
         }
 
         public int Delete(int id)
@@ -45,9 +45,28 @@ namespace CarRent.Repositories
             return car.Id;
         }
 
-        public IEnumerable<Car> Filter(Dictionary<string, string> stringQueries, Dictionary<string, int[]> intQueries)
+        public IEnumerable<Car> Filter(Dictionary<string, string> stringQueries, Dictionary<string, int[]> intQueries, Dictionary<string, bool> isAway )
         {
             List<Car> duplicatesResult = new List<Car>();
+            int queryCount = 0;
+
+            if (isAway != null)
+            {
+                foreach (KeyValuePair<string, bool> pair in isAway)
+                {
+                    switch (pair.Key)
+                    {
+                        case "isAway":
+                            var filteredIsAway = _db.Cars.Where(c => c.IsAway == true);
+
+                            break;
+
+                        case "isNotAway":
+                            break;
+                    }
+                }
+            }
+
             if (intQueries != null)
             {
                 foreach (KeyValuePair<string, int[]> pair in intQueries)
@@ -110,7 +129,6 @@ namespace CarRent.Repositories
 
                 }
             }
-            int queryCount = 0;
             if (stringQueries == null) { stringQueries = new Dictionary<string, string>(); queryCount += stringQueries.Count; }
             else { queryCount += stringQueries.Count; }
             if (intQueries == null) { intQueries = new Dictionary<string, int[]>(); queryCount += intQueries.Count; }
@@ -126,7 +144,7 @@ namespace CarRent.Repositories
                     finalResult.Add(g.Key);
                 }
             }
-            return finalResult;
+            return finalResult.Where(c => c.IsDeleted == false);
         }
 
         public Car Update(int id, Car car)
