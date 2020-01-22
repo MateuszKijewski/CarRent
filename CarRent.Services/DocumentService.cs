@@ -18,41 +18,53 @@ namespace CarRent.Services
         private readonly IOrderRepository _orderRepository;
         private readonly IReportConverter _reportConverter;
         private readonly IReportRepository _reportRepository;
+        private readonly ICarRepository _carRepository;
+        private readonly IWorkerRepository _workerRepository;
 
         public DocumentService(IOrderConverter orderConverter, IOrderRepository orderRepository,
-                                IReportConverter reportConverter, IReportRepository reportRepository)
+                                IReportConverter reportConverter, IReportRepository reportRepository,
+                                ICarRepository carRepository, IWorkerRepository workerRepository)
         {
             _orderConverter = orderConverter;
             _orderRepository = orderRepository;
             _reportConverter = reportConverter;
             _reportRepository = reportRepository;
+            _carRepository = carRepository;
+            _workerRepository = workerRepository;
         }
         
         /* Add to DB actions */
-        public int AddOrder(int carId, int workerId, int clientId, AddOrderDto addOrderDto)
+        public string AddOrder(int carId, int workerId, int clientId, AddOrderDto addOrderDto)
         {
             var order = _orderConverter.AddOrderDtoToOrder(addOrderDto);
             order.CarId = carId;
             order.WorkerId = workerId;
+            var car = _carRepository.Get(carId);
+            car.WorkerId = workerId;
+            _workerRepository.Get(workerId).Car = car;
             order.ClientId = clientId;
 
-            return _orderRepository.Add(order);
+
+            _orderRepository.Add(order);
+            return $"Order with id {order.Id} was succesfuly deleted";
         }
 
-        public int AddRepairReport(int orderId, AddRepairReportDto addRepairReport)
+        public string AddRepairReport(int orderId, AddRepairReportDto addRepairReport)
         {
             var repairReport = _reportConverter.AddRepairReportDtoToRepairReport(addRepairReport);
             repairReport.OrderId = orderId;
 
-            return _reportRepository.AddRepairReport(repairReport);            
+            _reportRepository.AddRepairReport(repairReport);
+            return $"Repair report with id {repairReport.Id} was succesfuly deleted";
         }
         
-        public int AddReturnReport(int orderId, AddReturnReportDto addReturnReport)
+        public string AddReturnReport(int orderId, AddReturnReportDto addReturnReport)
         {
             var returnReport = _reportConverter.AddReturnReportDtoToReturnReport(addReturnReport);
             returnReport.OrderId = orderId;
 
-            return _reportRepository.AddReturnReport(returnReport);
+            _reportRepository.AddReturnReport(returnReport);
+            return $"Return report with id {returnReport.Id} was succesfuly deleted";
         }
 
         /* Delete from DB actions */
@@ -75,9 +87,9 @@ namespace CarRent.Services
         }
 
         /* Filter from Db actions */
-        public IEnumerable<GetOrderDto> FilterOrders(string deliveryPlace, int[] rentalTimeRange, decimal[] costRange, DateTime[] dateRange)
+        public IEnumerable<GetOrderDto> FilterOrders(string deliveryPlace, int[] rentalTimeRange, decimal[] costRange, DateTime[] dateRange, Dictionary<string, bool> finished)
         {
-            return _orderRepository.Filter(deliveryPlace, rentalTimeRange, costRange, dateRange)
+            return _orderRepository.Filter(deliveryPlace, rentalTimeRange, costRange, dateRange, finished)
                 .Select(o => _orderConverter.OrderToGetOrderDto(o));
         }
         

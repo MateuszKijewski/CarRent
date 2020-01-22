@@ -7,7 +7,7 @@ namespace CarRent.Services
 {
     public interface ICarService
     {
-        int AddCar(AddCarDto addCarDto);
+        string AddCar(AddCarDto addCarDto);
         GetCarDto GetCar(int id);
         string DeleteCar(int id);
         IEnumerable<GetCarDto> GetAllCars();

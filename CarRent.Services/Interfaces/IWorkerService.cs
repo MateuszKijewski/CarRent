@@ -7,7 +7,7 @@ namespace CarRent.Services
 {
     public interface IWorkerService
     {
-        int AddWorker(int coordinatorId, AddWorkerDto addWorkerDto);
+        string AddWorker(int coordinatorId, AddWorkerDto addWorkerDto);
         GetWorkerDto GetWorker(int id);
         string DeleteWorker(int id);
         IEnumerable<GetWorkerDto> GetAllWorkers();

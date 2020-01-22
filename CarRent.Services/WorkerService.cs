@@ -20,14 +20,16 @@ namespace CarRent.Services
         }
 
 
-        public int AddWorker(int coordinatorId, AddWorkerDto addWorkerDto)
+        public string AddWorker(int coordinatorId, AddWorkerDto addWorkerDto)
         {
             var worker = _workerConverter.FromAddWorkerDtoToWorker(addWorkerDto);
             worker.IsDeleted = false;
             worker.CoordinatorId = coordinatorId;
 
-            return _workerRepository.Add(worker);
-            
+            _workerRepository.Add(worker);
+
+            return $"Worker with id {worker.Id} was succesfuly deleted";
+
         }
 
         public string DeleteWorker(int id)

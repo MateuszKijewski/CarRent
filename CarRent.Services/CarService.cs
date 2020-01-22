@@ -18,7 +18,7 @@ namespace CarRent.Services
             _carRepository = carRepository;            
         }
 
-        public int AddCar(AddCarDto addCarDto)
+        public string AddCar(AddCarDto addCarDto)
         {
             var car = _carConverter.FromAddCarDtoToCar(addCarDto);
             
@@ -27,7 +27,7 @@ namespace CarRent.Services
             car.IsDeleted = false;
 
             _carRepository.Add(car);
-            return car.Id;
+            return $"Car with id {car.Id} was succesfuly deleted";
         }
 
         public GetCarDto GetCar(int id)

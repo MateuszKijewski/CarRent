@@ -36,33 +36,60 @@ namespace CarRent.Repositories
             return order.Id;
         }
 
-        public IEnumerable<Order> Filter(string deliveryPlace, int[] rentalTimeRange, decimal[] costRange, DateTime[] dateRange)
+        public IEnumerable<Order> Filter(string deliveryPlace, int[] rentalTimeRange, decimal[] costRange, DateTime[] dateRange, Dictionary<string, bool> finished)
         {
             List<Order> duplicatesResult = new List<Order>();
+            int queryCount = 0;
+
             if (deliveryPlace != null)
             {
+                queryCount++;
                 var filteredPlaces = _db.Orders.Where(o => EF.Functions.Like(o.DeliveryPlace, $"%{deliveryPlace}%"));
                 foreach (var item in filteredPlaces) { duplicatesResult.Add(item); }
             }
             if (rentalTimeRange != null)
             {
+                queryCount++;
                 var fitleredRentalTime = _db.Orders.Where(o => o.RentalTime >= rentalTimeRange[0]
                                                         && o.RentalTime <= rentalTimeRange[1]);
                 foreach(var item in fitleredRentalTime) { duplicatesResult.Add(item); }
             }
             if (costRange != null)
             {
+                queryCount++;
                 var filteredCost = _db.Orders.Where(o => o.Cost >= costRange[0]
                                                     && o.Cost <= costRange[1]);
                 foreach (var item in filteredCost) { duplicatesResult.Add(item); }
             }
             if (dateRange != null)
             {
+                queryCount++;
                 var filteredDates = _db.Orders.Where(o => o.OrderDate >= dateRange[0]
                                                     && o.OrderDate <= dateRange[1]);
                 foreach (var item in filteredDates) { duplicatesResult.Add(item); }
             }
+            if (finished != null)
+            {
+                foreach(KeyValuePair<string, bool> pair in finished)
+                {
+                    switch (pair.Key)
+                    {
+                        case "Finished":
+                            var filteredFinished = _db.Orders.Where(o => o.Finished == true);
+                            foreach(var item in filteredFinished) { duplicatesResult.Add(item); }
+                            break;
 
+                        case "notFinished":
+                            var filteredNotFinished = _db.Orders.Where(o => o.Finished == false);
+                            foreach(var item in filteredNotFinished) { duplicatesResult.Add(item); }
+                            break;
+                    }
+                }
+            }
+            
+            if (finished == null) { finished = new Dictionary<string, bool>(); queryCount += finished.Count; }
+
+            
             List<Order> finalResult = duplicatesResult.Distinct().ToList();
             return finalResult;
 

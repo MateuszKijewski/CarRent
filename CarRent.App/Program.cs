@@ -13,7 +13,7 @@ namespace CarRent.App
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
             var provider = new Dependencies().Load();
@@ -22,7 +22,37 @@ namespace CarRent.App
             IWorkerService workerService = provider.GetService<IWorkerService>();
             IDocumentService documentService = provider.GetService<IDocumentService>();
 
-            /*
+            Dictionary<string, string> stringQuery = new Dictionary<string, string>();
+            Dictionary<string, int[]> intQuery = new Dictionary<string, int[]>();
+            stringQuery.Add("Brand", "Porsche");
+            stringQuery.Add("Model", "Cayenne");
+            int[] zakres = {2017, 2019};
+            intQuery.Add("Year", zakres);
+            
+            var cars = carService.FilterCars(stringQuery, null);
+            foreach(var car in cars)
+            {
+                Console.WriteLine(car.Description);
+            }
+
+            /*var worker = new AddWorkerDto { FirstName = "Krzysztof", LastName = "Nowak", Email = 
+                                            "test@interia.pl", PhoneNumber = "123321123", Salary = 3405m };
+            workerService.AddWorker(1, worker);
+            
+            var car = new AddCarDto
+            {
+                Brand = "Porsche",
+                Model = "Cayenne",
+                Engine = "v8",
+                Year = 2018,
+                Transmission = "Automatic",
+                FuelType = "Gasoline",
+                Color = "Black",
+                PricePerDay = 350.30m,
+                Mileage = 5000,
+            };
+            carService.AddCar(car);
+            
             var client = clientService.GetClient(4);
             var updateClient = new UpdateClientDto() { Pesel = "2137" };
             Console.WriteLine(client.description);

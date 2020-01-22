@@ -57,38 +57,56 @@ namespace CarRent.Repositories
         public IEnumerable<RepairReport> FilterRepairReports(string description, decimal[] costRange, int[] timeRange)
         {
             List<RepairReport> duplicatesResult = new List<RepairReport>();
+            int queryCount = 0;
+
             if (description != null)
             {
+                queryCount++;
                 var filteredDescriptions = _db.RepairReports.Where(rr => EF.Functions.Like(rr.Description, $"%{description}%"));
                 foreach (var item in filteredDescriptions) { duplicatesResult.Add(item); }
             }
             if (costRange != null)
             {
+                queryCount++;
                 var filteredCosts = _db.RepairReports.Where(rr => rr.Cost >= costRange[0]
                                                             && rr.Cost <= costRange[1]);
                 foreach(var item in filteredCosts) { duplicatesResult.Add(item); }
             }
             if (timeRange != null)
             {
+                queryCount++;
                 var filteredTimes = _db.RepairReports.Where(rr => rr.Time <= timeRange[0]
                                                             && rr.Time >= timeRange[1]);
                 foreach(var item in filteredTimes) { duplicatesResult.Add(item); }
             }
+            
+            List<RepairReport> finalResult = new List<RepairReport>();
+            var grouped = duplicatesResult.GroupBy(i => i);
+            foreach(var g in grouped)
+            {
+                if (g.Count() == queryCount)
+                {
+                    finalResult.Add(g.Key);
+                }
+            }
 
-            List<RepairReport> finalResult = duplicatesResult.Distinct().ToList();
             return finalResult;
         }
 
         public IEnumerable<ReturnReport> FilterReturnReports(int[] drivenDistanceRange, DateTime[] dateRange, Dictionary<string, bool> damaged)
         {
             List<ReturnReport> duplicatesResult = new List<ReturnReport>();
+            int queryCount = 0;
+
             if (drivenDistanceRange != null)
             {
+                queryCount++;
                 var filteredDistances = _db.ReturnReports.Where(rr => rr.DrivenDistance >= drivenDistanceRange[0]
                                                                 && rr.DrivenDistance <= drivenDistanceRange[1]);
                 foreach(var item in filteredDistances) { duplicatesResult.Add(item); }
             }
-            if (dateRange!= null)
+            if (dateRange != null)
+                queryCount++;
             {
                 var filteredDates = _db.ReturnReports.Where(rr => rr.ReturnDate >= dateRange[0]
                                                             && rr.ReturnDate <= dateRange[1]);
@@ -112,8 +130,17 @@ namespace CarRent.Repositories
                     }
                 }
             }
-            
-            List<ReturnReport> finalResult = duplicatesResult.Distinct().ToList();
+            if (damaged == null ) { damaged = new Dictionary<string, bool>(); queryCount += damaged.Count; }
+
+            List<ReturnReport> finalResult = new List<ReturnReport>();
+            var grouped = duplicatesResult.GroupBy(i => i);
+            foreach(var g in grouped)
+            {
+                if (g.Count() == queryCount)
+                {
+                    finalResult.Add(g.Key);
+                }
+            }
             return finalResult;
         }
 

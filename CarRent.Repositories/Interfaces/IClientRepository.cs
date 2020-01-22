@@ -11,7 +11,7 @@ namespace CarRent.Repositories
         IEnumerable<Client> GetAll();
         int Add(Client client);
         int Delete(int id);
-        IEnumerable<Client> Filter(Dictionary<string, string> stringQueries, Dictionary<string, bool> isCompany=null);
+        IEnumerable<Client> Filter(Dictionary<string, string> stringQueries, Dictionary<string, bool> company=null);
         Client Update(int id, Client client);
     }
 }

@@ -19,16 +19,18 @@ namespace CarRent.Services
             _clientRepository = clientRepository;
         }
 
-        public int AddClient(AddClientDto addClientDto)
+        public string AddClient(AddClientDto addClientDto)
         {
             var client = _clientConverter.AddClientDtoToClient(addClientDto);
             client.IsDeleted = false;
-            return _clientRepository.Add(client);
+            _clientRepository.Add(client);
+
+            return $"Client with id {client.Id} was succesfuly deleted";
         }
 
-        public IEnumerable<GetClientDto> FilterClients(Dictionary<string, string> pairs, Dictionary<string, bool> isCompany)
+        public IEnumerable<GetClientDto> FilterClients(Dictionary<string, string> pairs, Dictionary<string, bool> company)
         {
-            return _clientRepository.Filter(pairs, isCompany)
+            return _clientRepository.Filter(pairs, company)
                 .Select(c => _clientConverter.ClientToGetClientDto(c));
 
         }

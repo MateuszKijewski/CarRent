@@ -22,7 +22,7 @@ namespace CarRent.Repositories
 
         public int Add(Worker worker)
         {
-            _db.Workers.Add(worker);
+            _db.Workers.Add(worker);            
             _db.SaveChanges();
 
             return worker.Id;
@@ -40,9 +40,11 @@ namespace CarRent.Repositories
         public IEnumerable<Worker> Filter(Dictionary<string, string> stringQueries, int[] salaryRange)
         {
             List<Worker> duplicatesResult = new List<Worker>();
+            int queryCount = 0;
 
             if (salaryRange != null)
             {
+                queryCount++;
                 var filteredSalary = _db.Workers.Where(w => w.Salary >= salaryRange[0]
                                                         && w.Salary <= salaryRange[1]);
                 foreach (var item in filteredSalary) { duplicatesResult.Add(item); }
@@ -73,8 +75,19 @@ namespace CarRent.Repositories
                         break;
                 }
             }
+            
+            if (stringQueries == null) { stringQueries = new Dictionary<string, string>(); queryCount += stringQueries.Count; }
+            else { queryCount += stringQueries.Count; }
 
-            List<Worker> finalResult = duplicatesResult.Distinct().ToList();
+            List<Worker> finalResult = new List<Worker>();
+            var grouped = duplicatesResult.GroupBy(i => i);
+            foreach (var g in grouped)
+            {
+                if (g.Count() == queryCount)
+                {
+                    finalResult.Add(g.Key);
+                }
+            }
             return finalResult;
         }
 

@@ -13,6 +13,7 @@ namespace CarRent.Models.Entities
         public string DeliveryPlace { get; set; }
         public Decimal Cost { get; set; }
         public bool IsDeleted { get; set; }
+        public bool Finished { get; set; }
 
         public ReturnReport ReturnReport { get; set; }
         public RepairReport RepairReport { get; set; }
