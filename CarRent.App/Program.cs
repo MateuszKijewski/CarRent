@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace CarRent.App
@@ -38,6 +39,9 @@ namespace CarRent.App
             {
                 Console.WriteLine(car.Description);
             }
+
+            var clients = clientService.GetAllClients();
+
 
             /*var worker = new AddWorkerDto { FirstName = "Krzysztof", LastName = "Nowak", Email = 
                                             "test@interia.pl", PhoneNumber = "123321123", Salary = 3405m };

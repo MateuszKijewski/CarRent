@@ -27,6 +27,10 @@ namespace CarRent.Models.Converters
 
         public GetCarDto FromCarToGetCarDto(Car car)
         {
+            if (car == null)
+            {
+                return null;
+            }
             return new GetCarDto
             {
                 Id = car.Id,

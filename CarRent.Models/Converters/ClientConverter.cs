@@ -25,6 +25,10 @@ namespace CarRent.Models.Converters
 
         public GetClientDto ClientToGetClientDto(Client client)
         {
+            if (client == null)
+            {
+                return null;
+            }
             return new GetClientDto
             {
                 Id = client.Id,

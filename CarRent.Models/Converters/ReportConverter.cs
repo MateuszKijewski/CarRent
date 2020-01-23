@@ -32,6 +32,10 @@ namespace CarRent.Models.Converters
 
         public GetRepairReportDto RepairReportToGetRepairReportDto(RepairReport repairReport)
         {
+            if (repairReport == null)
+            {
+                return null;
+            }
             return new GetRepairReportDto
             {
                 Id = repairReport.Id,

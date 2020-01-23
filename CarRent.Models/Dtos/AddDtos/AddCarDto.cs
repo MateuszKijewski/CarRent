@@ -21,7 +21,7 @@ namespace CarRent.Models.Dtos
 
         public bool Validate()
         {
-            Regex alphanumeric = new Regex("^[a-zA-Z0-9]*$");
+            Regex alphanumeric = new Regex(@"^[\s\p{L}0-9]+$");
 
             if (string.IsNullOrEmpty(LicensePlateNumber) || (!alphanumeric.IsMatch(LicensePlateNumber))
                 || string.IsNullOrEmpty(Brand) || (!alphanumeric.IsMatch(Brand))

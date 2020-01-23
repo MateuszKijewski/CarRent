@@ -11,6 +11,10 @@ namespace CarRent.Models.Converters.Interfaces
     {
         public GetCoordinatorDto CoordinatorToGetCoordinatorDto(Coordinator coordinator)
         {
+            if (coordinator == null)
+            {
+                return null;
+            }
             return new GetCoordinatorDto
             {
                 Login = coordinator.Login,

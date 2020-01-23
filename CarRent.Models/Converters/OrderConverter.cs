@@ -20,6 +20,10 @@ namespace CarRent.Models.Converters
 
         public GetOrderDto OrderToGetOrderDto(Order order)
         {
+            if (order == null)
+            {
+                return null;
+            }
             return new GetOrderDto
             {
                 Id = order.Id,

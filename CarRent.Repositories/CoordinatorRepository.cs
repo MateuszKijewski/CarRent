@@ -20,6 +20,7 @@ namespace CarRent.Repositories
         public int Add(Coordinator coordinator)
         {
             _db.Coordinators.Add(coordinator);
+            _db.SaveChanges();
 
             return coordinator.Id;
         }

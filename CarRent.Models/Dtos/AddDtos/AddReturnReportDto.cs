@@ -14,10 +14,10 @@ namespace CarRent.Models.Dtos.AddDtos
         public bool Validate()
         {
 
-            Regex alphabetic = new Regex("^[a-zA-Z]+$");
+            Regex alphabetic = new Regex(@"^[\s\p{L}]+$");
             Regex numeric = new Regex("^[0-9]*$");
             Regex mail = new Regex(@"^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$");
-            Regex alphanumeric = new Regex("^[a-zA-Z0-9]*$");
+            Regex alphanumeric = new Regex(@"^[\s\p{L}0-9]+$");
 
             if (string.IsNullOrEmpty(DrivenDistance.ToString()) || (!numeric.IsMatch(DrivenDistance.ToString())
                 || string.IsNullOrEmpty(IsDamaged.ToString())

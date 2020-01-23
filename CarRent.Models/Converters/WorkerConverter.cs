@@ -22,6 +22,10 @@ namespace CarRent.Models.Converters
 
         public GetWorkerDto FromWorkerToGetWorkerDto(Worker worker)
         {
+            if (worker == null)
+            {
+                return null;
+            }
             return new GetWorkerDto
             {
                 Id = worker.Id,
