@@ -100,7 +100,14 @@ namespace CarRent.Repositories
 
         public Worker Get(int id)
         {
-            return _db.Workers.First(w => w.Id == id);
+            try
+            {
+                return _db.Workers.First(w => w.Id == id);
+            }
+            catch(InvalidOperationException e)
+            {
+                return null;
+            }
         }
 
         public IEnumerable<Worker> GetAll()

@@ -110,7 +110,15 @@ namespace CarRent.Repositories
 
         public Client Get(int id)
         {
-            return _db.Clients.First(c => c.Id == id);      
+            try
+            {
+                return _db.Clients.First(c => c.Id == id);
+            }
+
+            catch (InvalidOperationException e)
+            {
+                return null;
+            }
         }
 
         public IEnumerable<Client> GetAll()

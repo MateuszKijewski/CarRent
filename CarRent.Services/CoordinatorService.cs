@@ -15,6 +15,12 @@ namespace CarRent.Services
         private readonly ICoordinatorConverter _coordinatorConverter;
         private readonly ICoordinatorRepository _coordinatorRepository;
 
+        public CoordinatorService(ICoordinatorConverter coordinatorConverter, ICoordinatorRepository coordinatorRepository)
+        {
+            _coordinatorConverter = coordinatorConverter;
+            _coordinatorRepository = coordinatorRepository;
+        }
+
         public string Add(AddCoordinatorDto addCoordinatorDto)
         {
             if (!addCoordinatorDto.Validate())
@@ -27,13 +33,6 @@ namespace CarRent.Services
 
             return $"Coordinator with id {coordinator.Id} was added successfuly";
         }
-
-        public CoordinatorService(ICoordinatorConverter coordinatorConverter, ICoordinatorRepository coordinatorRepository)
-        {
-            _coordinatorConverter = coordinatorConverter;
-            _coordinatorRepository = coordinatorRepository;
-        }
-
 
         public GetCoordinatorDto GetCoordinator(int id)
         {

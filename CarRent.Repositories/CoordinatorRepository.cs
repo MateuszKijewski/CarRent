@@ -26,7 +26,16 @@ namespace CarRent.Repositories
 
         public Coordinator Get(int id)
         {
-            return _db.Coordinators.First(c => c.Id == id);
+            try
+            {
+                return _db.Coordinators.First(c => c.Id == id);
+            }
+            catch(InvalidOperationException e)
+            {
+                return null;
+            }
+            
+            // catch invalid operation exception
         }
 
         public bool ValidateLogin(string login, string password)

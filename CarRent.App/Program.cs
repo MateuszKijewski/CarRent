@@ -3,6 +3,7 @@ using CarRent.Models.Converters;
 using CarRent.Models.Dtos;
 using CarRent.Repositories;
 using CarRent.Services;
+using CarRent.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -21,6 +22,9 @@ namespace CarRent.App
             ICarService carService = provider.GetService<ICarService>();
             IWorkerService workerService = provider.GetService<IWorkerService>();
             IDocumentService documentService = provider.GetService<IDocumentService>();
+            ICoordinatorService coordinatorService = provider.GetService<ICoordinatorService>();
+
+            var coo = coordinatorService.GetCoordinator(2);
 
             Dictionary<string, string> stringQuery = new Dictionary<string, string>();
             Dictionary<string, int[]> intQuery = new Dictionary<string, int[]>();

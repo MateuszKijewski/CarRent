@@ -20,7 +20,15 @@ namespace CarRent.Repositories
 
         public Car Get(int id)
         {
-            return _db.Cars.First(c => c.Id == id);
+            try
+            {
+                return _db.Cars.First(c => c.Id == id);
+            }
+            catch (InvalidOperationException e)
+            {
+                return null;
+            }
+
         }
 
         public IEnumerable<Car> GetAll()

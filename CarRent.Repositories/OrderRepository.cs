@@ -97,7 +97,14 @@ namespace CarRent.Repositories
 
         public Order Get(int id)
         {
-            return _db.Orders.First(o => o.Id == id);
+            try
+            {
+                return _db.Orders.First(o => o.Id == id);
+            }
+            catch (InvalidOperationException e)
+            {
+                return null;
+            }
         }
 
         public IEnumerable<Order> GetAll()

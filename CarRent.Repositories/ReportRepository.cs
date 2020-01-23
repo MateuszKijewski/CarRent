@@ -156,7 +156,14 @@ namespace CarRent.Repositories
 
         public RepairReport GetRepairReport(int id)
         {
-            return _db.RepairReports.First(rr => rr.Id == id);
+            try
+            {
+                return _db.RepairReports.First(rr => rr.Id == id);
+            }
+            catch(InvalidOperationException e)
+            {
+                return null;
+            }
         }
 
         public ReturnReport GetReturnReport(int id)
